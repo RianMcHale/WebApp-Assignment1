@@ -1,1 +1,1 @@
-# React-Movie-Labs
+# Web App Development 2 - Assingment 1 (React)
