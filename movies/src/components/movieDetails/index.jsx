@@ -92,7 +92,6 @@ const MovieDetails = ({ movie }) => {
           </Paper>
         </>
       )}
-      {/* recommended movies  */}
       {recommendationsData && recommendationsData.results && recommendationsData.results.length > 0 && (
         <>
           <Typography variant="h6" component="p" sx={{ marginTop: 2}}>
@@ -105,7 +104,7 @@ const MovieDetails = ({ movie }) => {
                 <Chip
                 label={rec.title}
                 component={Link}
-                to={`/mvoies/${rec.id}`}
+                to={`/movies/${rec.id}`}
                 clickable
                 sx={{ margin: 0.5 }}
                 />
