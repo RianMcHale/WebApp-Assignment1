@@ -74,6 +74,7 @@ const MovieDetails = ({ movie }) => {
         </Paper>
       )}
 
+      {/* cast list */}
       {creditsData && creditsData.cast && creditsData.cast.length > 0 && (
         <>
           <Typography variant="h6" component="p" sx={{ marginTop: 2 }}>
@@ -91,7 +92,27 @@ const MovieDetails = ({ movie }) => {
           </Paper>
         </>
       )}
-      
+      {/* recommended movies  */}
+      {recommendationsData && recommendationsData.results && recommendationsData.results.length > 0 && (
+        <>
+          <Typography variant="h6" component="p" sx={{ marginTop: 2}}>
+            Recommendations
+          </Typography>
+          <Grid container spacing={1} sx={{ paddingLeft: 1 }}>
+            {recommendationsData.results.slice(0, 12).map((rec) => (
+              <Grid item key={rec.id}>
+                <Chip
+                label={rec.title}
+                component={Link}
+                to={`/mvoies/${rec.id}`}
+                clickable
+                sx={{ margin: 0.5 }}
+                />
+                </Grid>
+            ))}
+            </Grid>
+          </>
+      )}
       <Fab
         color="secondary"
         variant="extended"
