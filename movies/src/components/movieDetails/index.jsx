@@ -9,6 +9,10 @@ import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews";
+import { useQuery } from '@tanstack/react-query';
+import { getMovieCredits, getMovieRecommendations } from '../../api/tmdb-api';
+import Grid from '@mui/material/Grid';
+import { Link } from "react-router";
 
 const root = {
   display: "flex",
@@ -22,6 +26,15 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { data: creditsData, isError: creditsError } = useQuery({
+    queryKey: ['credits', { id: movie.id }],
+    queryFn: getMovieCredits,
+  });
+  const { data: recommendationsData, isError: recError } = useQuery({
+    queryKey: ['recommendations', { id: movie.id }],
+    queryFn: getMovieRecommendations,
+  });
 
   return (
     <>
@@ -60,6 +73,25 @@ const MovieDetails = ({ movie }) => {
           ))}
         </Paper>
       )}
+
+      {creditsData && creditsData.cast && creditsData.cast.length > 0 && (
+        <>
+          <Typography variant="h6" component="p" sx={{ marginTop: 2 }}>
+            Cast
+          </Typography>
+          <Paper component="ul" sx={{ ...root }}>
+            {creditsData.cast.slice(0, 10).map((member) => (
+              <li key={member.cast_id || member.credit_id}>
+                <Chip
+                label={`${member.name} as ${member.character}`}
+                sx={{ ...chip }}
+                />
+              </li>
+            ))}
+          </Paper>
+        </>
+      )}
+      
       <Fab
         color="secondary"
         variant="extended"
