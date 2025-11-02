@@ -7,19 +7,35 @@ import Grid from "@mui/material/Grid";
 function MovieListPageTemplate({ movies, title, action }) {
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
+  const [sortFilter, setSortFilter] = useState("");
   const genreId = Number(genreFilter);
 
   let displayedMovies = movies
-    .filter((m) => {
-      return m.title.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
-    })
-    .filter((m) => {
-      return genreId > 0 ? m.genre_ids.includes(genreId) : true;
-    });
+    .filter((m) => m.title.toLowerCase().search(nameFilter.toLowerCase()) !== -1)
+    .filter((m) => genreId > 0 ? m.genre_ids.includes(genreId) : true);
+
+
+  displayedMovies = displayedMovies.sort((a, b) => {
+    switch (sortFilter) {
+      case "rating":
+        return b.vote_average - a.vote_average;
+      case "releaseDate":
+        return new Date(b.release_date) - new Date(a.release_date);
+      case "title":
+        return a.title.localeCompare(b.title);
+      default:
+        return 0;
+    }
+  });
 
   const handleChange = (type, value) => {
-    if (type === "name") setNameFilter(value);
-    else setGenreFilter(value);
+    if (type === "name") {
+      setNameFilter(value);
+    } else if (type === "genre") {
+      setGenreFilter(value);
+    } else if (type === "sort") {
+      setSortFilter(value);
+    }
   };
 
   return (
@@ -37,6 +53,7 @@ function MovieListPageTemplate({ movies, title, action }) {
             onUserInput={handleChange}
             titleFilter={nameFilter}
             genreFilter={genreFilter}
+            sortFilter={sortFilter}
           />
         </Grid>
         <MovieList action={action} movies={displayedMovies}></MovieList>
