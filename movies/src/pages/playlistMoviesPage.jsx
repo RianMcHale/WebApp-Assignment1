@@ -11,7 +11,7 @@ const PlaylistMoviesPage = () => {
     const { mustWatch: movieIds } = useContext(MoviesContext);
 
     const playlistQueries = useQueries({
-        queries: movieIds.map((movieID) => {
+        queries: movieIds.map((movieId) => {
             return {
                 queryKey: ["movie", { id: movieId }],
                 queryFn: getMovie,
@@ -19,10 +19,15 @@ const PlaylistMoviesPage = () => {
         }),
     });
 
-    const movies = playlistQueries.map((q) => {
-        const data = q.data;
-        if (data.genres) {
-            data.genre_ids = data.genres.map((g) => g.id);
+    const isLoading = playlistQueries.some((q) => q.isLoading);
+    if (isLoading) return <Spinner />;
+
+    const movies = playlistQueries
+        .map((q) => q.data)
+        .filter((data) => !!data)
+        .map((data) => {
+            if (data.genres) {
+                data.genre_ids = data.genres.map((g) => g.id);
         }
         return data;
     });
@@ -31,7 +36,7 @@ const PlaylistMoviesPage = () => {
         <PageTemplate
             title="My Playlist"
             movies={movies}
-            action={(movies) => {
+            action={(movie) => {
                 return (
                     <>
                     <RemoveFromPlaylistIcon movie={movie} />
