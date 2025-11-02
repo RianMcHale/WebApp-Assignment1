@@ -92,6 +92,8 @@ const MovieDetails = ({ movie }) => {
           </Paper>
         </>
       )}
+
+      {/* recommendations list */}
       {recommendationsData && recommendationsData.results && recommendationsData.results.length > 0 && (
         <>
           <Typography variant="h6" component="p" sx={{ marginTop: 2}}>
@@ -110,9 +112,9 @@ const MovieDetails = ({ movie }) => {
                 />
                 </Grid>
             ))}
-            </Grid>
-            </Paper>
-          </>
+          </Grid>
+          </Paper>
+        </>
       )}
       <Fab
         color="secondary"
