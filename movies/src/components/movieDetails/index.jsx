@@ -98,7 +98,8 @@ const MovieDetails = ({ movie }) => {
           <Typography variant="h6" component="p" sx={{ marginTop: 2}}>
             Recommendations
           </Typography>
-          <Grid container spacing={1} sx={{ paddingLeft: 1 }}>
+          <Paper component="div" sx={{ padding: 1 }}>
+          <Grid container spacing={1}>
             {recommendationsData.results.slice(0, 12).map((rec) => (
               <Grid item key={rec.id}>
                 <Chip
@@ -111,6 +112,7 @@ const MovieDetails = ({ movie }) => {
                 </Grid>
             ))}
             </Grid>
+            </Paper>
           </>
       )}
       <Fab
@@ -123,7 +125,7 @@ const MovieDetails = ({ movie }) => {
           right: "1em",
         }}
       >
-        <NavigationIcon />
+      <NavigationIcon />
         Reviews
       </Fab>
       <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
