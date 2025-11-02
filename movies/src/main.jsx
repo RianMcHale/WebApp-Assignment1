@@ -11,6 +11,12 @@ import SiteHeader from './components/siteHeader'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import MoviesContextProvider from "./contexts/moviesContext";
+import TopRatedMoviesPage from "./pages/topRatedMoviesPage";
+import PopularMoviesPage from "./pages/popularMoviesPage";
+import TrendingMoviesPage from "./pages/trendingMoviesPage";
+import PlaylistMoviesPage from "./pages/playlistMoviesPage";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from "@mui/material/CssBaseline";
 
 // began assignment
 
@@ -24,9 +30,25 @@ const queryClient = new QueryClient({
   },
 });
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#0018a1ff',
+    },
+    secondary: {
+      main: '#7300ffff',
+    },
+    background: {
+      default: '#0091ffff',
+    },
+  },
+});
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+      <CssBaseline />
       <BrowserRouter>
         <SiteHeader />
         <MoviesContextProvider>
@@ -37,9 +59,17 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={ <Navigate to="/" /> } />
             <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
-            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />          </Routes>
+            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />          
+            <Route path="/movies/top-rated" element={<TopRatedMoviesPage />} />
+            <Route path="/movies/popular" element={<PopularMoviesPage />} />
+            <Route path="/movies/trending" element={<TrendingMoviesPage />} />
+            <Route path="/movies/playlist" element={<PlaylistMoviesPage />} />
+            <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+            <Route path="*" element={<Navigate to="/" /> } />
+          </Routes>
         </MoviesContextProvider>
       </BrowserRouter>
+      </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
